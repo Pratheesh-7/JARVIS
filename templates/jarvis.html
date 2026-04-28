@@ -215,17 +215,36 @@ function addMsg(role,text){
 
 // ── AUDIO CONTEXT SETUP ──
 let audioContextResumed=false;
+let globalAudioCtx=null;
+
 async function resumeAudioContext(){
   if(audioContextResumed)return;
   try{
-    const audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-    if(audioCtx.state==='suspended'){await audioCtx.resume();}
+    // Get or create global audio context
+    if(!globalAudioCtx){
+      globalAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    }
+    // Try to resume if suspended
+    if(globalAudioCtx.state==='suspended'){
+      await globalAudioCtx.resume();
+    }
     audioContextResumed=true;
-  }catch(e){console.error('AudioContext resume failed:',e);}
+    console.log('[v0] AudioContext resumed, state:', globalAudioCtx.state);
+  }catch(e){
+    console.warn('[v0] AudioContext resume attempted:', e.message);
+  }
 }
-// Resume on user gesture
-document.addEventListener('click',resumeAudioContext,{once:true});
-document.addEventListener('keydown',resumeAudioContext,{once:true});
+
+// Setup user gesture listeners to ensure AudioContext is ready
+function setupAudioGestures(){
+  document.addEventListener('click',resumeAudioContext,{once:false});
+  document.addEventListener('keydown',resumeAudioContext,{once:false});
+  document.addEventListener('touchstart',resumeAudioContext,{once:false});
+}
+setupAudioGestures();
+
+// Pre-attempt AudioContext creation/resume on page load
+window.addEventListener('load',resumeAudioContext);
 
 // ── BOOT SEQUENCE then AUTO CONNECT ──
 async function boot(){
@@ -332,6 +351,8 @@ async function connectRoom(url,token){
 
   try{
     await room.connect(url,token);
+    // Resume AudioContext before creating audio track (browser autoplay policy)
+    await resumeAudioContext();
     const audioTrack=await createLocalAudioTrack({echoCancellation:true,noiseSuppression:true});
     await room.localParticipant.publishTrack(audioTrack);
     micTrack=audioTrack;micEnabled=true;
