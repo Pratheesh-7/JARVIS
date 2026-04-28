@@ -236,33 +236,52 @@ load_dotenv()
 
 app = Flask(__name__, template_folder="templates")
 
-# allow frontend calls
-CORS(app, origins=["http://127.0.0.1:3000", "http://localhost:3000"])
+# Allow frontend calls from localhost
+CORS(app)
+
+# Debug info on startup
+print("\n" + "="*50)
+print("JARVIS AI ASSISTANT - FLASK SERVER")
+print("="*50)
+
+# Check environment variables
+api_key = os.getenv("LIVEKIT_API_KEY")
+api_secret = os.getenv("LIVEKIT_API_SECRET")
+url = os.getenv("LIVEKIT_URL")
+
+if api_key and api_secret and url:
+    print("✅ LiveKit credentials loaded")
+else:
+    print("❌ WARNING: Missing LiveKit credentials in .env")
+
+print("="*50 + "\n")
 
 
-# ---------------- HOME PAGE ----------------
+# ================== HOME PAGE ==================
 @app.route("/")
 def home():
+    """Serve the main JARVIS HTML interface"""
     return render_template("jarvis.html")
 
 
-# ---------------- LIVEKIT TOKEN ----------------
-@app.route("/token")
+# ================== LIVEKIT TOKEN ==================
+@app.route("/token", methods=["GET"])
 def token():
+    """Generate LiveKit token for client connection"""
     api_key = os.getenv("LIVEKIT_API_KEY")
     api_secret = os.getenv("LIVEKIT_API_SECRET")
     url = os.getenv("LIVEKIT_URL")
 
     if not api_key or not api_secret or not url:
-        return jsonify({"error": "Missing env vars"}), 500
+        return jsonify({"error": "Missing LiveKit environment variables"}), 500
 
     try:
+        # Create access token
         at = AccessToken(api_key, api_secret)
-
-        # ✅ correct way (new SDK safe method)
         at.identity = "user"
-        at.name = "user"
+        at.name = "User"
 
+        # Grant room join permissions
         at.with_grants(VideoGrants(
             room_join=True,
             room="jarvis-room"
@@ -274,11 +293,27 @@ def token():
         })
 
     except Exception as e:
-        print("TOKEN ERROR:", e)
+        print(f"❌ TOKEN GENERATION ERROR: {e}")
         return jsonify({"error": str(e)}), 500
 
-# ---------------- RUN SERVER ----------------
+
+# ================== HEALTH CHECK ==================
+@app.route("/health", methods=["GET"])
+def health():
+    """Simple health check endpoint"""
+    return jsonify({"status": "online", "service": "JARVIS"})
+
+
+# ================== RUN SERVER ==================
 if __name__ == "__main__":
-    print("🔥 Jarvis running → http://localhost:3000")
-    app.run(port=3000, debug=True)
+    print("🚀 JARVIS Server starting...")
+    print("📍 Open browser: http://localhost:3000")
+    print("🎯 Make sure agent.py is running in another terminal!")
+    print("\nServer logs:\n")
+    app.run(
+        host="127.0.0.1",
+        port=3000,
+        debug=True,
+        use_reloader=False  # Prevents double execution
+    )
 

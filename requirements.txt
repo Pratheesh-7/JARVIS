@@ -1,7 +1,8 @@
-livekit-agents
-livekit-agents[google]~=1.0
-livekit-plugins-noise-cancellation~=0.2
-python-dotenv
-flask
-flask-cors
-
+Flask==2.3.2
+Flask-CORS==4.0.0
+livekit==0.8.0
+livekit-agents==0.15.0
+livekit-agents[google]>=0.15.0
+livekit-plugins-noise-cancellation>=0.2.0
+python-dotenv==1.0.0
+google-generativeai>=0.3.0

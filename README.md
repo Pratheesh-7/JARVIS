@@ -1,89 +1,158 @@
-# JARVIS# JARVIS - Personal AI Assistant
+# JARVIS - Personal AI Voice Assistant
 
-Your personal AI friend that responds to voice and executes commands!
+J.A.R.V.I.S (Just A Rather Very Intelligent System) - Your personal AI friend that responds to voice in real-time with a futuristic interface!
 
-## 🚀 Quick Start
+## 🚀 Quick Start (3 Steps)
 
-### 1. Install Dependencies
+### Step 1: Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Run the Voice Agent
+### Step 2: Start Flask Server (Terminal 1)
 ```bash
-python agent.py console
+python server.py
 ```
-Speak into your microphone and Jarvis will respond!
+You should see: `🚀 JARVIS Server starting... 📍 Open browser: http://localhost:3000`
 
-### 3. Run the Web UI (Alternative)
+### Step 3: Start JARVIS Agent (Terminal 2 - New Window)
 ```bash
-python ui_app.py
+python agent.py
 ```
-Then open `http://localhost:5000` in your browser
+JARVIS is now ready to listen and respond!
 
-## 🎤 Voice Commands
+### Step 4: Open Browser
+Go to: **http://localhost:3000**
 
-Say any of these commands and Jarvis will execute them:
+Click the microphone 🎙 and start talking!
 
-- **"Open Google"** - Opens Google
-- **"Open YouTube"** - Opens YouTube
-- **"Open GitHub"** - Opens GitHub  
-- **"Search for [something]"** - Searches Google for your query
-- **"Open Notepad"** - Opens Notepad
-- **"Open Calculator"** - Opens Calculator
-- **"Open Spotify"** - Opens Spotify
-- **"Open Netflix"** - Opens Netflix
-- **"Open Gmail"** - Opens Gmail
-- **"Shut down"** - Shuts down your computer (in 10 seconds)
-- **"Restart"** - Restarts your computer (in 10 seconds)
+---
 
 ## 📋 Features
 
-✅ **Voice Recognition** - Understand natural speech  
-✅ **Voice Response** - Responds with AI-generated voice  
-✅ **Command Execution** - Open apps and websites  
-✅ **Web UI** - Beautiful dashboard to see available commands  
+✅ **Real-time Voice Recognition** - Understands your speech naturally  
+✅ **AI-Powered Responses** - Uses Google Gemini for intelligent answers  
+✅ **Voice Output** - JARVIS responds with natural voice  
+✅ **Beautiful UI** - Futuristic sci-fi interface inspired by Iron Man  
 ✅ **Noise Cancellation** - Crystal clear audio processing  
-✅ **Google Gemini AI** - Powered by Google's latest AI model
+✅ **Live Metrics** - See connection status, CPU, audio levels  
+✅ **Text Alternative** - Type messages if you prefer speaking  
+✅ **Cross-platform** - Works on Windows, Mac, and Linux  
+
+---
+
+## 🎤 What You Can Say
+
+JARVIS responds to natural conversation about virtually any topic:
+
+- "What's the weather today?"
+- "Tell me a joke"
+- "Explain quantum computing"
+- "How do I learn Python?"
+- "What's 25 times 32?"
+- "Write me a poem about space"
+- "Help me debug this code"
+- "What are the benefits of meditation?"
+
+---
 
 ## 🔧 Configuration
 
-Your API keys are stored in `.env`:
+API keys are pre-configured in `.env`:
+```env
+GOOGLE_API_KEY=your_gemini_key
+LIVEKIT_URL=your_livekit_server
+LIVEKIT_API_KEY=your_api_key
+LIVEKIT_API_SECRET=your_api_secret
 ```
-GOOGLE_API_KEY=your_key_here
-LIVEKIT_URL=your_url_here
-LIVEKIT_API_KEY=your_key_here
-LIVEKIT_API_SECRET=your_secret_here
-```
+
+No setup needed - they're already configured for you!
+
+---
 
 ## 📂 File Structure
 
 ```
-Jarvis_7/
-├── agent.py           # Main voice agent
-├── ui_app.py          # Web UI Flask app
-├── commands.py        # Command execution logic
-├── requirements.txt   # Python dependencies
-├── .env              # API keys
+JARVIS/
+├── server.py                 # Flask backend (port 3000)
+├── agent.py                  # AI agent with voice
+├── commands.py               # Command utilities
+├── requirements.txt          # Python dependencies
+├── .env                      # API credentials
+├── STARTUP_GUIDE.md          # Detailed setup guide
+├── START_JARVIS.bat          # Windows startup script
+├── start_jarvis.sh           # Mac/Linux startup script
+├── README.md                 # This file
 └── templates/
-    └── index.html    # Web UI interface
+    └── jarvis.html           # Web UI interface
 ```
 
-## 💡 Usage Tips
+---
 
-1. **Voice Mode**: Best for hands-free interaction, just speak naturally
-2. **Web UI**: Use for a visual interface and quick command access
-3. **Commands**: Be clear and speak naturally, Jarvis will understand!
+## 🎯 Troubleshooting
 
-## 🎯 Example Conversations
+| Issue | Solution |
+|-------|----------|
+| "Server Offline" | Make sure `python server.py` is running in terminal 1 |
+| No audio response | Make sure `python agent.py` is running in terminal 2 |
+| Microphone not working | Click on the page to enable AudioContext (browser requirement) |
+| Permission denied | Allow microphone access when browser asks |
+| ModuleNotFoundError | Run `pip install -r requirements.txt` again |
 
-**You**: "Hey Jarvis, open YouTube"  
-**Jarvis**: "Opening YouTube for you!"
+---
 
-**You**: "Search for pizza recipes"  
-**Jarvis**: "Searching for pizza recipes"
+## 🔑 How It Works
 
-**You**: "Open notepad"  
-**Jarvis**: "Opening Notepad"
+```
+Your Browser (jarvis.html)
+    ↓ Streams your voice via microphone
+    ↓
+LiveKit Room
+    ↓ Receives audio
+    ↓
+JARVIS Agent (agent.py)
+    ↓ Processes with Google Realtime Model
+    ↓ Generates intelligent response
+    ↓ Streams voice back
+    ↓
+Your Browser
+    ↓ Plays JARVIS's response
+```
 
-Enjoy your personal AI friend! 🤖✨
+---
+
+## 💡 Tips
+
+1. **Best Experience**: Use a headset with microphone for clear audio
+2. **Hands-Free**: Just speak naturally - JARVIS listens continuously
+3. **Text Mode**: Use the input field if you prefer typing
+4. **Multiple Terminals**: Keep both server.py and agent.py running
+5. **Port Issues**: If port 3000 is busy, edit server.py to use a different port
+
+---
+
+## 🎓 Example Conversation
+
+**Browser**: Opens http://localhost:3000  
+**You**: Click microphone 🎙 and say "Hello Jarvis"  
+**JARVIS**: Responds with "Hello! I'm Jarvis, your AI assistant. How can I help you today?"  
+**You**: "What is artificial intelligence?"  
+**JARVIS**: Explains AI in a conversational way with voice  
+
+---
+
+## 🖥️ System Requirements
+
+- **Python**: 3.8+
+- **RAM**: 4GB minimum
+- **Internet**: Required for Google Gemini API and LiveKit
+- **Browser**: Chrome, Firefox, Edge, or Safari (latest version)
+- **Microphone**: Any standard microphone
+
+---
+
+## 📖 More Information
+
+For detailed setup instructions, see **STARTUP_GUIDE.md**
+
+Enjoy your personal AI assistant! 🤖✨
