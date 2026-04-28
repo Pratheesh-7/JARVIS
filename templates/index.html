@@ -1,0 +1,274 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvis - Personal AI Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .status-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #10b981;
+            color: white;
+            font-weight: 600;
+        }
+
+        .status.inactive {
+            background: #ef4444;
+        }
+
+        .commands-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .command-btn {
+            padding: 15px;
+            border: 2px solid #667eea;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #667eea;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .command-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-section input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .input-section input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .input-section button {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .input-section button:hover {
+            background: #764ba2;
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .mic-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-card">
+            <div class="header">
+                <div class="mic-icon">🎤</div>
+                <h1>JARVIS</h1>
+                <p>Your Personal AI Assistant</p>
+            </div>
+
+            <div class="content">
+                <div class="status-section">
+                    <span class="status-indicator"></span>
+                    <span class="status" id="status">ACTIVE</span>
+                </div>
+
+                <div class="commands-section">
+                    <h2>📋 Available Commands</h2>
+                    <div class="commands-grid" id="commandsGrid"></div>
+                </div>
+
+                <div class="input-section">
+                    <input type="text" id="commandInput" placeholder="Type or say a command...">
+                    <button onclick="sendCommand()">Send</button>
+                </div>
+
+                <div id="message"></div>
+            </div>
+
+            <div class="footer">
+                <p>💡 Tip: Say commands like "Open Google", "Open YouTube", "Search for something"</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const commands = {{ commands | tojson }};
+
+        // Display commands
+        function loadCommands() {
+            const grid = document.getElementById('commandsGrid');
+            commands.forEach(cmd => {
+                const btn = document.createElement('button');
+                btn.className = 'command-btn';
+                btn.textContent = cmd;
+                btn.onclick = () => {
+                    document.getElementById('commandInput').value = cmd;
+                    sendCommand();
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        // Send command
+        function sendCommand() {
+            const input = document.getElementById('commandInput');
+            const command = input.value.trim();
+            const messageDiv = document.getElementById('message');
+
+            if (!command) return;
+
+            // Show feedback
+            messageDiv.innerHTML = `<div class="message success">Executing: ${command}</div>`;
+            input.value = '';
+
+            // Simulate command execution
+            setTimeout(() => {
+                messageDiv.innerHTML = `<div class="message success">✓ ${command} - Done!</div>`;
+            }, 500);
+        }
+
+        // Keyboard support
+        document.getElementById('commandInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendCommand();
+        });
+
+        // Load on page load
+        window.onload = loadCommands;
+    </script>
+</body>
+</html> -->
