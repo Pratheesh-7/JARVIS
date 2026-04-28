@@ -1,4 +1,4 @@
-# JARVIS - Personal AI Assistant
+# JARVIS# JARVIS - Personal AI Assistant
 
 Your personal AI friend that responds to voice and executes commands!
 
