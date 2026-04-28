@@ -213,6 +213,20 @@ function addMsg(role,text){
   messagesEl.scrollTop=messagesEl.scrollHeight;
 }
 
+// ── AUDIO CONTEXT SETUP ──
+let audioContextResumed=false;
+async function resumeAudioContext(){
+  if(audioContextResumed)return;
+  try{
+    const audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended'){await audioCtx.resume();}
+    audioContextResumed=true;
+  }catch(e){console.error('AudioContext resume failed:',e);}
+}
+// Resume on user gesture
+document.addEventListener('click',resumeAudioContext,{once:true});
+document.addEventListener('keydown',resumeAudioContext,{once:true});
+
 // ── BOOT SEQUENCE then AUTO CONNECT ──
 async function boot(){
   const steps=[
