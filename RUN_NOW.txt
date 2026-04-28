@@ -1,0 +1,115 @@
+╔════════════════════════════════════════════════════════════════╗
+║                    JARVIS - RUN NOW                             ║
+║                                                                 ║
+║              Installation Fixed - Dependencies Updated          ║
+╚════════════════════════════════════════════════════════════════╝
+
+COPY & PASTE THESE COMMANDS:
+
+═══════════════════════════════════════════════════════════════
+
+STEP 1: Install Dependencies
+═══════════════════════════════════════════════════════════════
+
+Windows:
+--------
+python -m venv venv
+venv\Scripts\activate
+pip install --upgrade pip
+pip install -r requirements.txt
+
+
+Mac/Linux:
+----------
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+
+
+═══════════════════════════════════════════════════════════════
+
+STEP 2: Open TWO Terminal Windows
+═══════════════════════════════════════════════════════════════
+
+TERMINAL 1 - Flask Server:
+--------------------------
+python server.py
+
+You'll see:
+  🚀 JARVIS Server starting...
+  📍 Open browser: http://localhost:3000
+
+
+TERMINAL 2 - AI Agent:
+----------------------
+python agent.py
+
+You'll see agent startup messages.
+
+Keep both running! Do NOT close either terminal.
+
+
+═══════════════════════════════════════════════════════════════
+
+STEP 3: Open Browser
+═══════════════════════════════════════════════════════════════
+
+Go to: http://localhost:3000
+
+You'll see the futuristic JARVIS interface loading.
+
+Wait for "JARVIS ONLINE" message.
+
+
+═══════════════════════════════════════════════════════════════
+
+STEP 4: Use JARVIS
+═══════════════════════════════════════════════════════════════
+
+1. Click the Microphone Button 🎙
+2. Speak naturally
+   - "Hello Jarvis"
+   - "Tell me a joke"
+   - "What's 2+2?"
+   - "Explain quantum computing"
+
+3. JARVIS responds with voice!
+
+
+═══════════════════════════════════════════════════════════════
+
+IF ERRORS OCCUR:
+═══════════════════════════════════════════════════════════════
+
+"No module named 'livekit'":
+  pip install -r requirements.txt --force-reinstall
+
+"Port 3000 already in use":
+  Edit server.py, change port: app.run(port=5000)
+
+"Connection refused":
+  Make sure BOTH terminals are running (server.py + agent.py)
+
+"Microphone not working":
+  Click the page first to enable AudioContext
+  Allow browser microphone permission
+
+
+═══════════════════════════════════════════════════════════════
+
+WHAT'S FIXED:
+═══════════════════════════════════════════════════════════════
+
+✅ Updated livekit-agents to 1.5.6 (was 0.15.0)
+✅ Updated all package versions to working versions
+✅ Fixed agent.py to work with new API
+✅ All dependencies now installable
+✅ Ready for production use
+
+
+═══════════════════════════════════════════════════════════════
+
+YOUR JARVIS IS READY! Enjoy! 🤖
+
+═══════════════════════════════════════════════════════════════
